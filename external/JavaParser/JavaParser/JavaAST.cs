@@ -10,763 +10,889 @@ using Newtonsoft.Json.Linq;
 
 namespace JavaParser.AST
 {
-    using System;
-    using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
 
-    using System.Globalization;
-    using Newtonsoft.Json;
-    using Newtonsoft.Json.Converters;
+using System.Globalization;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
-    #region Base
+#region Base
 
-    public partial class Range
-    {
-        [JsonProperty("beginLine")]
-        public long BeginLine { get; set; }
+public partial class Range
+{
+    [JsonProperty("beginLine")]
+    public long BeginLine {
+        get;
+        set;
+    }
 
-        [JsonProperty("beginColumn")]
-        public long BeginColumn { get; set; }
+    [JsonProperty("beginColumn")]
+    public long BeginColumn {
+        get;
+        set;
+    }
 
-        [JsonProperty("endLine")]
-        public long EndLine { get; set; }
+    [JsonProperty("endLine")]
+    public long EndLine {
+        get;
+        set;
+    }
 
-        [JsonProperty("endColumn")]
-        public long EndColumn { get; set; }
+    [JsonProperty("endColumn")]
+    public long EndColumn {
+        get;
+        set;
     }
+}
 
-    public partial class TokenRange
-    {
-        [JsonProperty("beginToken")]
-        public Token BeginToken { get; set; }
+public partial class TokenRange
+{
+    [JsonProperty("beginToken")]
+    public Token BeginToken {
+        get;
+        set;
+    }
 
-        [JsonProperty("endToken")]
-        public Token EndToken { get; set; }
+    [JsonProperty("endToken")]
+    public Token EndToken {
+        get;
+        set;
     }
+}
 
-    public partial class Token
-    {
-        [JsonProperty("kind")]
-        public long Kind { get; set; }
+public partial class Token
+{
+    [JsonProperty("kind")]
+    public long Kind {
+        get;
+        set;
+    }
 
-        [JsonProperty("text")]
-        public string Text { get; set; }
+    [JsonProperty("text")]
+    public string Text {
+        get;
+        set;
     }
-    
-    #endregion
+}
 
-    #region Nodes
+#endregion
 
-    public partial class Node
-    {
-        [JsonProperty("!")]
-        public string Kind { get; set; }
+#region Nodes
 
-        [JsonProperty("range")]
-        public Range Range { get; set; }
+public partial class Node
+{
+    [JsonProperty("!")]
+    public string Kind {
+        get;
+        set;
+    }
 
-        [JsonProperty("tokenRange")]
-        public TokenRange TokenRange { get; set; }
+    [JsonProperty("range")]
+    public Range Range {
+        get;
+        set;
+    }
 
-        [JsonProperty("comment")]
-        public Comment Comment { get; set; }
+    [JsonProperty("tokenRange")]
+    public TokenRange TokenRange {
+        get;
+        set;
     }
 
-    public partial class ArrayCreationLevel : Node
-    {
-        [JsonProperty("dimension")]
-        public Expression Dimension { get; set; }
+    [JsonProperty("comment")]
+    public Comment Comment {
+        get;
+        set;
+    }
+}
 
-        [JsonProperty("annotations")]
-        public AnnotationExpr[] Annotations { get; set; }
+public partial class ArrayCreationLevel : Node
+{
+    [JsonProperty("dimension")]
+    public Expression Dimension {
+        get;
+        set;
     }
 
-    public partial class CompilationUnit : Node
-    {
-        public string FileName { get; set; }
+    [JsonProperty("annotations")]
+    public AnnotationExpr[] Annotations {
+        get;
+        set;
+    }
+}
 
-        [JsonProperty("imports")]
-        public ImportDeclaration[] Imports { get; set; }
+public partial class CompilationUnit : Node
+{
+    public string FileName {
+        get;
+        set;
+    }
 
-        [JsonProperty("packageDeclaration")]
-        public PackageDeclaration PackageDeclaration { get; set; }
+    [JsonProperty("imports")]
+    public ImportDeclaration[] Imports {
+        get;
+        set;
+    }
 
-        [JsonProperty("types")]
-        public TypeDeclaration[] Types { get; set; }
+    [JsonProperty("packageDeclaration")]
+    public PackageDeclaration PackageDeclaration {
+        get;
+        set;
     }
 
-    public partial class ImportDeclaration : Node
-    {
-        [JsonProperty("name")]
-        public Name Name;
+    [JsonProperty("types")]
+    public TypeDeclaration[] Types {
+        get;
+        set;
+    }
+}
 
-        [JsonProperty("isStatic")]
-        public bool IsStatic;
+public partial class ImportDeclaration : Node
+{
+    [JsonProperty("name")]
+    public Name Name;
 
-        [JsonProperty("isAsterisk")]
-        public bool IsAsterisk;
-    }
+    [JsonProperty("isStatic")]
+    public bool IsStatic;
 
-    public partial class PackageDeclaration : Node
-    {
-        [JsonProperty("annotations")]
-        public AnnotationExpr[] Annotations { get; set; }
+    [JsonProperty("isAsterisk")]
+    public bool IsAsterisk;
+}
 
-        [JsonProperty("name", NullValueHandling = NullValueHandling.Ignore)]
-        public Name Name { get; set; }
+public partial class PackageDeclaration : Node
+{
+    [JsonProperty("annotations")]
+    public AnnotationExpr[] Annotations {
+        get;
+        set;
     }
 
-    public partial class Modifier : Node
-    {
-        [JsonProperty("keyword")]
-        public string Keyword;
+    [JsonProperty("name", NullValueHandling = NullValueHandling.Ignore)]
+    public Name Name {
+        get;
+        set;
     }
+}
 
-    #endregion
+public partial class Modifier : Node
+{
+    [JsonProperty("keyword")]
+    public string Keyword;
+}
 
-    #region Body
-
-    public partial class BodyDeclaration : Node
-    {
-        [JsonProperty("annotations")]
-        public AnnotationExpr[] Annotations { get; set; }
-    }
+#endregion
 
-    public partial class AnnotationDeclaration : TypeDeclaration
-    {
+#region Body
 
+public partial class BodyDeclaration : Node
+{
+    [JsonProperty("annotations")]
+    public AnnotationExpr[] Annotations {
+        get;
+        set;
     }
+}
 
-    public partial class AnnotationMemberDeclaration : BodyDeclaration
-    {
-        [JsonProperty("modifiers")]
-        public Modifier[] Modifiers;
+public partial class AnnotationDeclaration : TypeDeclaration
+{
 
-        [JsonProperty("type")]
-        public Type Type;
+}
 
-        [JsonProperty("name")]
-        public SimpleName Name;
+public partial class AnnotationMemberDeclaration : BodyDeclaration
+{
+    [JsonProperty("modifiers")]
+    public Modifier[] Modifiers;
 
-        [JsonProperty("defaultValue")]
-        public Expression DefaultValue;
-    }
+    [JsonProperty("type")]
+    public Type Type;
 
-    public partial class TypeDeclaration : BodyDeclaration
-    {
-        [JsonProperty("name")]
-        public SimpleName Name { get; set; }
+    [JsonProperty("name")]
+    public SimpleName Name;
 
-        [JsonProperty("modifiers")]
-        public Modifier[] Modifiers { get; set; }
+    [JsonProperty("defaultValue")]
+    public Expression DefaultValue;
+}
 
-        [JsonProperty("members")]
-        public BodyDeclaration[] Members { get; set; }
+public partial class TypeDeclaration : BodyDeclaration
+{
+    [JsonProperty("name")]
+    public SimpleName Name {
+        get;
+        set;
     }
 
-    public partial class ClassOrInterfaceDeclaration : TypeDeclaration
-    {
-        [JsonProperty("isInterface")]
-        public bool IsInterface { get; set; }
+    [JsonProperty("modifiers")]
+    public Modifier[] Modifiers {
+        get;
+        set;
+    }
 
-        [JsonProperty("typeParameters")]
-        public TypeParameter[] TypeParameters { get; set; }
+    [JsonProperty("members")]
+    public BodyDeclaration[] Members {
+        get;
+        set;
+    }
+}
 
-        [JsonProperty("implementedTypes")]
-        public ClassOrInterfaceType[] ImplementedTypes { get; set; }
+public partial class ClassOrInterfaceDeclaration : TypeDeclaration
+{
+    [JsonProperty("isInterface")]
+    public bool IsInterface {
+        get;
+        set;
+    }
 
-        [JsonProperty("extendedTypes")]
-        public ClassOrInterfaceType[] ExtendedTypes { get; set; }
+    [JsonProperty("typeParameters")]
+    public TypeParameter[] TypeParameters {
+        get;
+        set;
     }
 
-    public partial class ConstructorDeclaration : CallableDeclaration
-    {
-        [JsonProperty("body")]
-        public BlockStmt Body;
+    [JsonProperty("implementedTypes")]
+    public ClassOrInterfaceType[] ImplementedTypes {
+        get;
+        set;
     }
 
-    public partial class EnumDeclaration : TypeDeclaration
-    {
-        [JsonProperty("entries")]
-        public EnumConstantDeclaration[] Entries { get; set; }
+    [JsonProperty("extendedTypes")]
+    public ClassOrInterfaceType[] ExtendedTypes {
+        get;
+        set;
     }
+}
 
-    public partial class EnumConstantDeclaration : BodyDeclaration
-    {
-        [JsonProperty("name")]
-        public SimpleName Name { get; set; }
+public partial class ConstructorDeclaration : CallableDeclaration
+{
+    [JsonProperty("body")]
+    public BlockStmt Body;
+}
 
-        [JsonProperty("arguments")]
-        public Expression[] Arguments { get; set; }
+public partial class EnumDeclaration : TypeDeclaration
+{
+    [JsonProperty("entries")]
+    public EnumConstantDeclaration[] Entries {
+        get;
+        set;
+    }
+}
 
-        [JsonProperty("classBody")]
-        public BodyDeclaration[] ClassBody { get; set; }
+public partial class EnumConstantDeclaration : BodyDeclaration
+{
+    [JsonProperty("name")]
+    public SimpleName Name {
+        get;
+        set;
     }
 
-    public partial class FieldDeclaration : BodyDeclaration
-    {
-        [JsonProperty("modifiers")]
-        public Modifier[] Modifiers;
+    [JsonProperty("arguments")]
+    public Expression[] Arguments {
+        get;
+        set;
+    }
 
-        [JsonProperty("variables")]
-        public VariableDeclarator[] Variables;
+    [JsonProperty("classBody")]
+    public BodyDeclaration[] ClassBody {
+        get;
+        set;
     }
+}
 
-    public partial class InitializerDeclaration : BodyDeclaration
-    {
-        [JsonProperty("isStatic")]
-        public bool IsStatic;
+public partial class FieldDeclaration : BodyDeclaration
+{
+    [JsonProperty("modifiers")]
+    public Modifier[] Modifiers;
 
-        [JsonProperty("body")]
-        public BlockStmt Body;
-    }
+    [JsonProperty("variables")]
+    public VariableDeclarator[] Variables;
+}
 
-    public partial class CallableDeclaration : BodyDeclaration
-    {
-        [JsonProperty("modifiers")]
-        public Modifier[] Modifiers;
+public partial class InitializerDeclaration : BodyDeclaration
+{
+    [JsonProperty("isStatic")]
+    public bool IsStatic;
 
-        [JsonProperty("typeParameters")]
-        public TypeParameter[] TypeParameters;
+    [JsonProperty("body")]
+    public BlockStmt Body;
+}
 
-        [JsonProperty("name")]
-        public SimpleName Name;
+public partial class CallableDeclaration : BodyDeclaration
+{
+    [JsonProperty("modifiers")]
+    public Modifier[] Modifiers;
 
-        [JsonProperty("parameters")]
-        public Parameter[] Parameters;
+    [JsonProperty("typeParameters")]
+    public TypeParameter[] TypeParameters;
 
-        [JsonProperty("thrownExceptions")]
-        public ReferenceType[] ThrownExceptions;
+    [JsonProperty("name")]
+    public SimpleName Name;
 
-        //public ReceiverParameter receiverParameter;
-    }
+    [JsonProperty("parameters")]
+    public Parameter[] Parameters;
 
-    public partial class MethodDeclaration : CallableDeclaration
-    {
-        [JsonProperty("type")]
-        public Type Type;
+    [JsonProperty("thrownExceptions")]
+    public ReferenceType[] ThrownExceptions;
 
-        [JsonProperty("body")]
-        public BlockStmt Body;
-    }
+    //public ReceiverParameter receiverParameter;
+}
 
-    public partial class Parameter : Node
-    {
-        [JsonProperty("type")]
-        public Type Type;
+public partial class MethodDeclaration : CallableDeclaration
+{
+    [JsonProperty("type")]
+    public Type Type;
 
-        [JsonProperty("isVarArgs")]
-        public bool IsVarArgs;
+    [JsonProperty("body")]
+    public BlockStmt Body;
+}
 
-        [JsonProperty("varArgsAnnotations")]
-        public AnnotationExpr[] VarArgsAnnotations;
+public partial class Parameter : Node
+{
+    [JsonProperty("type")]
+    public Type Type;
 
-        [JsonProperty("modifiers")]
-        public Modifier[] Modifiers;
+    [JsonProperty("isVarArgs")]
+    public bool IsVarArgs;
 
-        [JsonProperty("annotations")]
-        public AnnotationExpr[] Annotations;
+    [JsonProperty("varArgsAnnotations")]
+    public AnnotationExpr[] VarArgsAnnotations;
 
-        [JsonProperty("name")]
-        public SimpleName Name;
-    }
+    [JsonProperty("modifiers")]
+    public Modifier[] Modifiers;
 
-    public partial class VariableDeclarator : Node
-    {
-        [JsonProperty("name")]
-        public SimpleName Name;
+    [JsonProperty("annotations")]
+    public AnnotationExpr[] Annotations;
 
-        [JsonProperty("initializer")]
-        public Expression Initializer;
+    [JsonProperty("name")]
+    public SimpleName Name;
+}
 
-        [JsonProperty("type")]
-        public Type Type;
-    }
+public partial class VariableDeclarator : Node
+{
+    [JsonProperty("name")]
+    public SimpleName Name;
 
-    #endregion
+    [JsonProperty("initializer")]
+    public Expression Initializer;
 
-    #region Comments
+    [JsonProperty("type")]
+    public Type Type;
+}
 
-    public partial class BlockComment : Comment
-    {
-    }
+#endregion
 
-    public partial class Comment : Node
-    {
-        [JsonProperty("content")]
-        public string Content { get; set; }
-    }
+#region Comments
 
-    public partial class JavadocComment : Comment
-    {
-    }
+public partial class BlockComment : Comment
+{
+}
 
-    public partial class LineComment : Comment
-    {
+public partial class Comment : Node
+{
+    [JsonProperty("content")]
+    public string Content {
+        get;
+        set;
     }
+}
 
-    #endregion
+public partial class JavadocComment : Comment
+{
+}
 
-    #region Types
+public partial class LineComment : Comment
+{
+}
 
-    public partial class Type
-    {
-        [JsonProperty("annotations")]
-        public AnnotationExpr[] Annotations { get; set; }
+#endregion
+
+#region Types
+
+public partial class Type
+{
+    [JsonProperty("annotations")]
+    public AnnotationExpr[] Annotations {
+        get;
+        set;
     }
+}
 
-    public partial class ArrayType : ReferenceType
-    {
-        [JsonProperty("componentType")]
-        public Type ComponentType { get; set; }
+public partial class ArrayType : ReferenceType
+{
+    [JsonProperty("componentType")]
+    public Type ComponentType {
+        get;
+        set;
     }
+}
 
-    public partial class ClassOrInterfaceType : ReferenceType
-    {
-        [JsonProperty("name")]
-        public SimpleName Name { get; set; }
+public partial class ClassOrInterfaceType : ReferenceType
+{
+    [JsonProperty("name")]
+    public SimpleName Name {
+        get;
+        set;
+    }
 
-        [JsonProperty("typeArguments")]
-        public Type[] TypeArguments { get; set; }
+    [JsonProperty("typeArguments")]
+    public Type[] TypeArguments {
+        get;
+        set;
     }
+}
 
-    public partial class PrimitiveType : Type
-    {
-        [JsonProperty("type")]
-        public string Type { get; set; }
-    }
- 
-    public partial class ReferenceType : Type
-    {
-        
+public partial class PrimitiveType : Type
+{
+    [JsonProperty("type")]
+    public string Type {
+        get;
+        set;
     }
+}
 
-    public partial class TypeParameter : ReferenceType
-    {
-        [JsonProperty("name")]
-        public SimpleName Name { get; set; }
+public partial class ReferenceType : Type
+{
 
-        [JsonProperty("typeBound")]
-        public ClassOrInterfaceType[] TypeBound { get; set; }
-    }
+}
 
-    public partial class UnknownType : Type
-    {
-        
+public partial class TypeParameter : ReferenceType
+{
+    [JsonProperty("name")]
+    public SimpleName Name {
+        get;
+        set;
     }
 
-    public partial class VoidType : Type
-    {
-        
+    [JsonProperty("typeBound")]
+    public ClassOrInterfaceType[] TypeBound {
+        get;
+        set;
     }
+}
 
-    public partial class WildcardType : Type
-    {
-        [JsonProperty("extendedType")]
-        public ReferenceType ExtendedType;
+public partial class UnknownType : Type
+{
 
-        [JsonProperty("superType")]
-        public ReferenceType SuperType;
-    }
+}
 
-    #endregion
+public partial class VoidType : Type
+{
 
-    #region Expressions
+}
 
-    public partial class Expression : Node
-    {
+public partial class WildcardType : Type
+{
+    [JsonProperty("extendedType")]
+    public ReferenceType ExtendedType;
 
-    }
+    [JsonProperty("superType")]
+    public ReferenceType SuperType;
+}
 
-    public partial class AnnotationExpr : Expression
-    {
-        [JsonProperty("name")]
-        public Name Name;
-    }
+#endregion
 
-    public partial class ArrayAccessExpr : Expression
-    {
-        [JsonProperty("name")]
-        public Expression Name;
+#region Expressions
 
-        [JsonProperty("index")]
-        public Expression Index;
-    }
+public partial class Expression : Node
+{
 
+}
 
-    public partial class ArrayCreationExpr : Expression
-    {
-        [JsonProperty("levels")]
-        public ArrayCreationLevel[] Levels;
+public partial class AnnotationExpr : Expression
+{
+    [JsonProperty("name")]
+    public Name Name;
+}
 
-        [JsonProperty("elementType")]
-        public Type ElementType;
+public partial class ArrayAccessExpr : Expression
+{
+    [JsonProperty("name")]
+    public Expression Name;
 
-        [JsonProperty("initializer")]
-        public ArrayInitializerExpr Initializer;
-    }
+    [JsonProperty("index")]
+    public Expression Index;
+}
 
-    public partial class ArrayInitializerExpr : Expression
-    {
-        [JsonProperty("values")]
-        public Expression[] Values;
-    }
 
-    public partial class BinaryExpr : Expression
-    {
-    }
+public partial class ArrayCreationExpr : Expression
+{
+    [JsonProperty("levels")]
+    public ArrayCreationLevel[] Levels;
 
-    public partial class ClassExpr : Expression
-    {
-        [JsonProperty("type")]
-        public Type Type;
-    }
+    [JsonProperty("elementType")]
+    public Type ElementType;
 
-    public partial class DoubleLiteralExpr : LiteralStringValueExpr
-    {
-    }
+    [JsonProperty("initializer")]
+    public ArrayInitializerExpr Initializer;
+}
 
-    public partial class FieldAccessExpr : Expression
-    {
-        [JsonProperty("scope")]
-        public Expression Scope;
+public partial class ArrayInitializerExpr : Expression
+{
+    [JsonProperty("values")]
+    public Expression[] Values;
+}
 
-        [JsonProperty("typeArguments")]
-        public Type[] TypeArguments;
+public partial class BinaryExpr : Expression
+{
+}
 
-        [JsonProperty("name")]
-        public SimpleName Name;
-    }
+public partial class ClassExpr : Expression
+{
+    [JsonProperty("type")]
+    public Type Type;
+}
 
-    public partial class IntegerLiteralExpr : LiteralStringValueExpr
-    {
-    }
+public partial class DoubleLiteralExpr : LiteralStringValueExpr
+{
+}
 
-    public partial class LambdaExpr : Expression
-    {
-        [JsonProperty("parameters")]
-        public Parameter[] Parameters;
+public partial class FieldAccessExpr : Expression
+{
+    [JsonProperty("scope")]
+    public Expression Scope;
 
-        [JsonProperty("isEnclosingParameters")]
-        public bool IsEnclosingParameters;
+    [JsonProperty("typeArguments")]
+    public Type[] TypeArguments;
 
-        [JsonProperty("body")]
-        public Statement Body;
-    }
+    [JsonProperty("name")]
+    public SimpleName Name;
+}
 
-    public partial class LiteralExpr : Expression
-    {
-    }
+public partial class IntegerLiteralExpr : LiteralStringValueExpr
+{
+}
 
-    public partial class LiteralStringValueExpr : LiteralExpr
-    {
-        [JsonProperty("value")]
-        public string Value;
-    }
+public partial class LambdaExpr : Expression
+{
+    [JsonProperty("parameters")]
+    public Parameter[] Parameters;
 
-    public partial class MarkerAnnotationExpr : AnnotationExpr
-    {
-        
-    }
+    [JsonProperty("isEnclosingParameters")]
+    public bool IsEnclosingParameters;
 
-    public partial class MemberValuePair : Node
-    {
-        [JsonProperty("name")]
-        public SimpleName Name;
+    [JsonProperty("body")]
+    public Statement Body;
+}
 
-        [JsonProperty("value")]
-        public Expression Value;
-    }
+public partial class LiteralExpr : Expression
+{
+}
 
-    public partial class MethodCallExpr : Expression
-    {
-        [JsonProperty("scope")]
-        public Expression Scope;
+public partial class LiteralStringValueExpr : LiteralExpr
+{
+    [JsonProperty("value")]
+    public string Value;
+}
 
-        [JsonProperty("typeArguments")]
-        public Type[] TypeArguments;
+public partial class MarkerAnnotationExpr : AnnotationExpr
+{
 
-        [JsonProperty("name")]
-        public SimpleName Name;
+}
 
-        [JsonProperty("arguments")]
-        public Expression[] Arguments;
-    }
+public partial class MemberValuePair : Node
+{
+    [JsonProperty("name")]
+    public SimpleName Name;
 
-    public partial class NameExpr : Expression
-    {
-        [JsonProperty("name")]
-        public SimpleName Name;
-    }
+    [JsonProperty("value")]
+    public Expression Value;
+}
 
-    public partial class NormalAnnotationExpr : AnnotationExpr
-    {
-        [JsonProperty("pairs")]
-        public MemberValuePair[] Pairs;
-    }
+public partial class MethodCallExpr : Expression
+{
+    [JsonProperty("scope")]
+    public Expression Scope;
 
-    public partial class NullLiteralExpr : LiteralExpr
-    {
-    }
+    [JsonProperty("typeArguments")]
+    public Type[] TypeArguments;
 
-    public partial class ObjectCreationExpr : Expression
-    {
-        [JsonProperty("scope")]
-        public Expression Scope;
+    [JsonProperty("name")]
+    public SimpleName Name;
 
-        [JsonProperty("type")]
-        public ClassOrInterfaceType Type;
+    [JsonProperty("arguments")]
+    public Expression[] Arguments;
+}
 
-        [JsonProperty("typeArguments")]
-        public Type[] TypeArguments;
+public partial class NameExpr : Expression
+{
+    [JsonProperty("name")]
+    public SimpleName Name;
+}
 
-        [JsonProperty("arguments")]
-        public Expression[] Arguments;
+public partial class NormalAnnotationExpr : AnnotationExpr
+{
+    [JsonProperty("pairs")]
+    public MemberValuePair[] Pairs;
+}
 
-        [JsonProperty("anonymousClassBody")]
-        public BodyDeclaration[] AnonymousClassBody;
-    }
+public partial class NullLiteralExpr : LiteralExpr
+{
+}
 
-    public partial class StringLiteralExpr : LiteralStringValueExpr
-    {
-    }
+public partial class ObjectCreationExpr : Expression
+{
+    [JsonProperty("scope")]
+    public Expression Scope;
 
-    public partial class SimpleName : Node
-    {
-        [JsonProperty("identifier")]
-        public string Identifier { get; set; }
-    }
+    [JsonProperty("type")]
+    public ClassOrInterfaceType Type;
 
-    public partial class SingleMemberAnnotationExpr : AnnotationExpr
-    {
-        [JsonProperty("memberValue")]
-        public Expression MemberValue;
-    }
+    [JsonProperty("typeArguments")]
+    public Type[] TypeArguments;
 
-    public partial class UnaryExpr : Expression
-    {
-    }
+    [JsonProperty("arguments")]
+    public Expression[] Arguments;
 
-    public partial class Name : Node
-    {
-        [JsonProperty("identifier")]
-        public string Identifier { get; set; }
+    [JsonProperty("anonymousClassBody")]
+    public BodyDeclaration[] AnonymousClassBody;
+}
+
+public partial class StringLiteralExpr : LiteralStringValueExpr
+{
+}
 
-        [JsonProperty("qualifier")]
-        public Name Qualifier;
+public partial class SimpleName : Node
+{
+    [JsonProperty("identifier")]
+    public string Identifier {
+        get;
+        set;
     }
+}
 
-    #endregion
+public partial class SingleMemberAnnotationExpr : AnnotationExpr
+{
+    [JsonProperty("memberValue")]
+    public Expression MemberValue;
+}
 
-    #region Statements
+public partial class UnaryExpr : Expression
+{
+}
 
-    public class Statement
-    {
-        
+public partial class Name : Node
+{
+    [JsonProperty("identifier")]
+    public string Identifier {
+        get;
+        set;
     }
 
-    public class BlockStmt : Statement
-    {
-        [JsonProperty("statements")]
-        public Statement[] Statements;
-    }
-    
-    #endregion
+    [JsonProperty("qualifier")]
+    public Name Qualifier;
+}
 
-    public partial class CompilationUnit
-    {
-        public static CompilationUnit FromJson(string json) => 
-            JsonConvert.DeserializeObject<CompilationUnit>(json, Converter.Settings);
-    }
+#endregion
 
-    public static class Serialize
-    {
-        public static string ToJson(this CompilationUnit self) =>
-            JsonConvert.SerializeObject(self, Converter.Settings);
-    }
+#region Statements
+
+public class Statement
+{
+
+}
+
+public class BlockStmt : Statement
+{
+    [JsonProperty("statements")]
+    public Statement[] Statements;
+}
+
+#endregion
+
+public partial class CompilationUnit
+{
+    public static CompilationUnit FromJson(string json) =>
+    JsonConvert.DeserializeObject<CompilationUnit>(json, Converter.Settings);
+}
+
+public static class Serialize
+{
+    public static string ToJson(this CompilationUnit self) =>
+    JsonConvert.SerializeObject(self, Converter.Settings);
+}
 
-    internal static class Converter
+internal static class Converter
+{
+    public static readonly JsonSerializerSettings Settings = new JsonSerializerSettings
     {
-        public static readonly JsonSerializerSettings Settings = new JsonSerializerSettings
+        MetadataPropertyHandling = MetadataPropertyHandling.Ignore,
+        DateParseHandling = DateParseHandling.None,
+        Converters =
         {
-            MetadataPropertyHandling = MetadataPropertyHandling.Ignore,
-            DateParseHandling = DateParseHandling.None,
-            Converters =
-            {
-                new IsoDateTimeConverter { DateTimeStyles = DateTimeStyles.AssumeUniversal },
-                new NodeConverter(),
-                new TypeConverter()
-            },
-        };
-    }
-    
-    internal class NodeConverter : JsonCreationConverter<Node>
+            new IsoDateTimeConverter { DateTimeStyles = DateTimeStyles.AssumeUniversal },
+            new NodeConverter(),
+            new TypeConverter()
+        },
+    };
+}
+
+internal class NodeConverter : JsonCreationConverter<Node>
+{
+    protected override Node Create(System.Type objectType, JObject jObject)
     {
-        protected override Node Create(System.Type objectType, JObject jObject)
+        switch (jObject["!"].ToString())
         {
-            switch (jObject["!"].ToString())
-            {
-                case "com.github.javaparser.ast.ArrayCreationLevel":
-                    return new ArrayCreationLevel();
-                case "com.github.javaparser.ast.CompilationUnit":
-                    return new CompilationUnit();
-                case "com.github.javaparser.ast.ImportDeclaration":
-                    return new ImportDeclaration();
-                case "com.github.javaparser.ast.Modifier":
-                    return new Modifier();
-                case "com.github.javaparser.ast.PackageDeclaration":
-                    return new PackageDeclaration();
+        case "com.github.javaparser.ast.ArrayCreationLevel":
+            return new ArrayCreationLevel();
+        case "com.github.javaparser.ast.CompilationUnit":
+            return new CompilationUnit();
+        case "com.github.javaparser.ast.ImportDeclaration":
+            return new ImportDeclaration();
+        case "com.github.javaparser.ast.Modifier":
+            return new Modifier();
+        case "com.github.javaparser.ast.PackageDeclaration":
+            return new PackageDeclaration();
 
-                case "com.github.javaparser.ast.body.AnnotationDeclaration":
-                    return new AnnotationDeclaration();
-                case "com.github.javaparser.ast.body.AnnotationMemberDeclaration":
-                    return new AnnotationMemberDeclaration();
-                case "com.github.javaparser.ast.body.ClassOrInterfaceDeclaration":
-                    return new ClassOrInterfaceDeclaration();
-                case "com.github.javaparser.ast.body.ConstructorDeclaration":
-                    return new ConstructorDeclaration();
-                case "com.github.javaparser.ast.body.FieldDeclaration":
-                    return new FieldDeclaration();
-                case "com.github.javaparser.ast.body.InitializerDeclaration":
-                    return new InitializerDeclaration();
-                case "com.github.javaparser.ast.body.EnumConstantDeclaration":
-                    return new EnumConstantDeclaration();
-                case "com.github.javaparser.ast.body.EnumDeclaration":
-                    return new EnumDeclaration();
-                case "com.github.javaparser.ast.body.MethodDeclaration":
-                    return new MethodDeclaration();
-                case "com.github.javaparser.ast.body.Parameter":
-                    return new Parameter();
-                case "com.github.javaparser.ast.body.VariableDeclarator":
-                    return new VariableDeclarator();
+        case "com.github.javaparser.ast.body.AnnotationDeclaration":
+            return new AnnotationDeclaration();
+        case "com.github.javaparser.ast.body.AnnotationMemberDeclaration":
+            return new AnnotationMemberDeclaration();
+        case "com.github.javaparser.ast.body.ClassOrInterfaceDeclaration":
+            return new ClassOrInterfaceDeclaration();
+        case "com.github.javaparser.ast.body.ConstructorDeclaration":
+            return new ConstructorDeclaration();
+        case "com.github.javaparser.ast.body.FieldDeclaration":
+            return new FieldDeclaration();
+        case "com.github.javaparser.ast.body.InitializerDeclaration":
+            return new InitializerDeclaration();
+        case "com.github.javaparser.ast.body.EnumConstantDeclaration":
+            return new EnumConstantDeclaration();
+        case "com.github.javaparser.ast.body.EnumDeclaration":
+            return new EnumDeclaration();
+        case "com.github.javaparser.ast.body.MethodDeclaration":
+            return new MethodDeclaration();
+        case "com.github.javaparser.ast.body.Parameter":
+            return new Parameter();
+        case "com.github.javaparser.ast.body.VariableDeclarator":
+            return new VariableDeclarator();
 
-                case "com.github.javaparser.ast.comments.BlockComment":
-                    return new BlockComment();
-                case "com.github.javaparser.ast.comments.Comment":
-                    return new Comment();
-                case "com.github.javaparser.ast.comments.JavadocComment":
-                    return new JavadocComment();
-                case "com.github.javaparser.ast.comments.LineComment":
-                    return new LineComment();
+        case "com.github.javaparser.ast.comments.BlockComment":
+            return new BlockComment();
+        case "com.github.javaparser.ast.comments.Comment":
+            return new Comment();
+        case "com.github.javaparser.ast.comments.JavadocComment":
+            return new JavadocComment();
+        case "com.github.javaparser.ast.comments.LineComment":
+            return new LineComment();
 
-                case "com.github.javaparser.ast.expr.AnnotationExpr":
-                    return new AnnotationExpr();
-                case "com.github.javaparser.ast.expr.ArrayAccessExpr":
-                    return new ArrayAccessExpr();
-                case "com.github.javaparser.ast.expr.ArrayCreationExpr":
-                    return new ArrayCreationExpr();
-                case "com.github.javaparser.ast.expr.ArrayInitializerExpr":
-                    return new ArrayInitializerExpr();
-                case "com.github.javaparser.ast.expr.BinaryExpr":
-                    return new BinaryExpr();
-                case "com.github.javaparser.ast.expr.ClassExpr":
-                    return new ClassExpr();
-                case "com.github.javaparser.ast.expr.DoubleLiteralExpr":
-                    return new DoubleLiteralExpr();
-                case "com.github.javaparser.ast.expr.FieldAccessExpr":
-                    return new FieldAccessExpr();
-                case "com.github.javaparser.ast.expr.IntegerLiteralExpr":
-                    return new IntegerLiteralExpr();
-                case "com.github.javaparser.ast.expr.LambdaExpr":
-                    return new LambdaExpr();
-                case "com.github.javaparser.ast.expr.LiteralExpr":
-                    return new LiteralExpr();
-                case "com.github.javaparser.ast.expr.LiteralStringValueExpr":
-                    return new LiteralStringValueExpr();
-                case "com.github.javaparser.ast.expr.MarkerAnnotationExpr":
-                    return new MarkerAnnotationExpr();
-                case "com.github.javaparser.ast.expr.MemberValuePair":
-                    return new MemberValuePair();
-                case "com.github.javaparser.ast.expr.MethodCallExpr":
-                    return new MethodCallExpr();
-                case "com.github.javaparser.ast.expr.NameExpr":
-                    return new NameExpr();
-                case "com.github.javaparser.ast.expr.NormalAnnotationExpr":
-                    return new NormalAnnotationExpr();
-                case "com.github.javaparser.ast.expr.NullLiteralExpr":
-                    return new NullLiteralExpr();
-                case "com.github.javaparser.ast.expr.Name":
-                    return new Name();
-                case "com.github.javaparser.ast.expr.ObjectCreationExpr":
-                    return new ObjectCreationExpr();   
-                case "com.github.javaparser.ast.expr.SimpleName":
-                    return new SimpleName();
-                case "com.github.javaparser.ast.expr.SingleMemberAnnotationExpr":
-                    return new SingleMemberAnnotationExpr();
-                case "com.github.javaparser.ast.expr.StringLiteralExpr":
-                    return new StringLiteralExpr();
-                case "com.github.javaparser.ast.expr.UnaryExpr":
-                    return new UnaryExpr();
-                default:
-                    throw new NotImplementedException($"Missing handler for: {jObject["!"]}");
-            }
+        case "com.github.javaparser.ast.expr.AnnotationExpr":
+            return new AnnotationExpr();
+        case "com.github.javaparser.ast.expr.ArrayAccessExpr":
+            return new ArrayAccessExpr();
+        case "com.github.javaparser.ast.expr.ArrayCreationExpr":
+            return new ArrayCreationExpr();
+        case "com.github.javaparser.ast.expr.ArrayInitializerExpr":
+            return new ArrayInitializerExpr();
+        case "com.github.javaparser.ast.expr.BinaryExpr":
+            return new BinaryExpr();
+        case "com.github.javaparser.ast.expr.ClassExpr":
+            return new ClassExpr();
+        case "com.github.javaparser.ast.expr.DoubleLiteralExpr":
+            return new DoubleLiteralExpr();
+        case "com.github.javaparser.ast.expr.FieldAccessExpr":
+            return new FieldAccessExpr();
+        case "com.github.javaparser.ast.expr.IntegerLiteralExpr":
+            return new IntegerLiteralExpr();
+        case "com.github.javaparser.ast.expr.LambdaExpr":
+            return new LambdaExpr();
+        case "com.github.javaparser.ast.expr.LiteralExpr":
+            return new LiteralExpr();
+        case "com.github.javaparser.ast.expr.LiteralStringValueExpr":
+            return new LiteralStringValueExpr();
+        case "com.github.javaparser.ast.expr.MarkerAnnotationExpr":
+            return new MarkerAnnotationExpr();
+        case "com.github.javaparser.ast.expr.MemberValuePair":
+            return new MemberValuePair();
+        case "com.github.javaparser.ast.expr.MethodCallExpr":
+            return new MethodCallExpr();
+        case "com.github.javaparser.ast.expr.NameExpr":
+            return new NameExpr();
+        case "com.github.javaparser.ast.expr.NormalAnnotationExpr":
+            return new NormalAnnotationExpr();
+        case "com.github.javaparser.ast.expr.NullLiteralExpr":
+            return new NullLiteralExpr();
+        case "com.github.javaparser.ast.expr.Name":
+            return new Name();
+        case "com.github.javaparser.ast.expr.ObjectCreationExpr":
+            return new ObjectCreationExpr();
+        case "com.github.javaparser.ast.expr.SimpleName":
+            return new SimpleName();
+        case "com.github.javaparser.ast.expr.SingleMemberAnnotationExpr":
+            return new SingleMemberAnnotationExpr();
+        case "com.github.javaparser.ast.expr.StringLiteralExpr":
+            return new StringLiteralExpr();
+        case "com.github.javaparser.ast.expr.UnaryExpr":
+            return new UnaryExpr();
+        default:
+            throw new NotImplementedException($"Missing handler for: {jObject["!"]}");
         }
     }
+}
 
-    internal class TypeConverter : JsonCreationConverter<Type>
+internal class TypeConverter : JsonCreationConverter<Type>
+{
+    protected override Type Create(System.Type objectType, JObject jObject)
     {
-        protected override Type Create(System.Type objectType, JObject jObject)
+        switch (jObject["!"].ToString())
         {
-            switch (jObject["!"].ToString())
-            {
-                case "com.github.javaparser.ast.type.ArrayType":
-                    return new ArrayType();
-                case "com.github.javaparser.ast.type.ClassOrInterfaceType":
-                    return new ClassOrInterfaceType();
-                case "com.github.javaparser.ast.type.PrimitiveType":
-                    return new PrimitiveType();
-                case "com.github.javaparser.ast.type.TypeParameter":
-                    return new TypeParameter();
-                case "com.github.javaparser.ast.type.UnknownType":
-                    return new UnknownType();
-                case "com.github.javaparser.ast.type.VoidType":
-                    return new VoidType();
-                case "com.github.javaparser.ast.type.WildcardType":
-                    return new WildcardType();
-                default:
-                    throw new NotImplementedException($"Missing handler for: {jObject["!"]}");
-            }
+        case "com.github.javaparser.ast.type.ArrayType":
+            return new ArrayType();
+        case "com.github.javaparser.ast.type.ClassOrInterfaceType":
+            return new ClassOrInterfaceType();
+        case "com.github.javaparser.ast.type.PrimitiveType":
+            return new PrimitiveType();
+        case "com.github.javaparser.ast.type.TypeParameter":
+            return new TypeParameter();
+        case "com.github.javaparser.ast.type.UnknownType":
+            return new UnknownType();
+        case "com.github.javaparser.ast.type.VoidType":
+            return new VoidType();
+        case "com.github.javaparser.ast.type.WildcardType":
+            return new WildcardType();
+        default:
+            throw new NotImplementedException($"Missing handler for: {jObject["!"]}");
         }
     }
+}
 
-    internal abstract class JsonCreationConverter<T> : JsonConverter
+internal abstract class JsonCreationConverter<T> : JsonConverter
+{
+    /// <summary>
+    /// Create an instance of objectType, based properties in the JSON object
+    /// </summary>
+    /// <param name="objectType">type of object expected</param>
+    /// <param name="jObject">
+    /// contents of JSON object that will be deserialized
+    /// </param>
+    /// <returns></returns>
+    protected abstract T Create(System.Type objectType, JObject jObject);
+
+    public override bool CanConvert(System.Type objectType)
     {
-        /// <summary>
-        /// Create an instance of objectType, based properties in the JSON object
-        /// </summary>
-        /// <param name="objectType">type of object expected</param>
-        /// <param name="jObject">
-        /// contents of JSON object that will be deserialized
-        /// </param>
-        /// <returns></returns>
-        protected abstract T Create(System.Type objectType, JObject jObject);
-
-        public override bool CanConvert(System.Type objectType)
-        {
-            return typeof(T).IsAssignableFrom(objectType);
-        }
-
-        public override bool CanWrite => false;
-
-        public override object ReadJson(JsonReader reader, 
-            System.Type objectType, 
-            object existingValue, 
-            JsonSerializer serializer)
-        { 
-            // Load JObject from stream
-            JObject jObject = JObject.Load(reader);
-
-            // Create target object based on JObject
-            T target = Create(objectType, jObject);
-
-            // Populate the object properties
-            serializer.Populate(jObject.CreateReader(), target);
-
-            return target;
-        }
-
-        public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
-        {
-            throw new NotImplementedException();
-        }
+        return typeof(T).IsAssignableFrom(objectType);
     }
+
+    public override bool CanWrite => false;
+
+    public override object ReadJson(JsonReader reader,
+                                    System.Type objectType,
+                                    object existingValue,
+                                    JsonSerializer serializer)
+    {
+        // Load JObject from stream
+        JObject jObject = JObject.Load(reader);
+
+        // Create target object based on JObject
+        T target = Create(objectType, jObject);
+
+        // Populate the object properties
+        serializer.Populate(jObject.CreateReader(), target);
+
+        return target;
+    }
+
+    public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
+    {
+        throw new NotImplementedException();
+    }
+}
 }
